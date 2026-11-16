@@ -1,0 +1,5 @@
+CATALOGUE_HOST: catalogue.yefy.shop
+USER_HOST: user.yefy.shop
+CART_HOST: cart.yefy.shop
+SHIPPING_HOST: shipping.yefy.shop
+PAYMENT_HOST: payment.yefy.shop
