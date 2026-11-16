@@ -1,0 +1,2 @@
+REDIS_ADDRESS: redis.yefy.shop
+MONGO_ADDRESS: mongodb.yefy.shop
