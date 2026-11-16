@@ -1,0 +1,43 @@
+- name: nodejs setup (disable and enable nodejs20 v & install)
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: nodejs-setup
+
+- name: app setup (create system user and download and exacts files)
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: app-setup
+
+- name: Install node.js package.
+  community.general.npm:
+    path: /app
+
+- name: systemd setup (configure systemd service file)
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: systemd-setup
+  notify: "started and enabled {{ server }}"
+
+
+- name: copying mongodb
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: installing mongodb-mongosh
+  ansible.builtin.dnf:
+    name: mongodb-mongosh
+    state: present
+
+- name: check products are present
+  ansible.builtin.command: mongosh --host mongodb.yefy.shop --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+  register: catalogue_output
+
+- name: printing catalogue_output
+  ansible.builtin.debug:
+    msg: "{{ catalogue_output }}"
+
+- name: load products
+  ansible.builtin.shell: mongosh --host mongodb.yefy.shop </app/db/master-data.js
+  when:  catalogue_output.stdout | int < 0
+
