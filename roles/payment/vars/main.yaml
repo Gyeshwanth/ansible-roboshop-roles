@@ -1,5 +1,5 @@
 CART_ADDRESS: cart.yefy.shop
 RABBITMQ_ADDRESS: rabbitmq.yefy.shop
 USER_ADDRESS: user.yefy.shop
-AMQP_USER: roboshop
-AMQP_PASS: roboshop123
+RABBITMQ_USER: roboshop
+RABBITMQ_PASSWORD: roboshop123
