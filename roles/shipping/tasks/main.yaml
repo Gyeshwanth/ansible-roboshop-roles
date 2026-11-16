@@ -1,0 +1,30 @@
+- name: app setup (create system user and download and exacts files)
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: app-setup
+
+- name: maven setup (install maven and clean build package jar)
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: maven-setup
+
+- name: import data
+  tags:
+    - import
+  ansible.mysql.mysql_db:
+    name: all
+    login_user: root
+    login_password: RoboShop@1
+    login_host: mysql.yefy.shop
+    state: import
+    target: "{{ item }}"
+  loop:
+    - /app/db/schema.sql
+    - /app/db/app-user.sql
+    - /app/db/master-data.sql
+
+
+- name: systemd setup (configure systemd service file)
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: systemd-setup

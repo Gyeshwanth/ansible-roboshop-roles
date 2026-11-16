@@ -1,0 +1,20 @@
+- name: install maven and mysql
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - maven
+    - mysql
+    - mysql-server
+    - python3-PyMySQL
+
+
+- name: install maven dependencies
+  ansible.builtin.command: mvn clean package
+  args:
+    chdir: /app
+
+- name: "copying {{ server }} jar"
+  ansible.builtin.command: "mv target/{{ server }}-1.0.jar {{ server }}.jar"
+  args:
+    chdir: /app
