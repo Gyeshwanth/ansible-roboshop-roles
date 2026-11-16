@@ -16,8 +16,6 @@
   ansible.builtin.include_role:
     name: common
     tasks_from: systemd-setup
-  notify: "started and enabled {{ server }}"
-
 
 - name: copying mongodb
   ansible.builtin.copy:
