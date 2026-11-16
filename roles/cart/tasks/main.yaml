@@ -1,0 +1,19 @@
+- name: nodejs setup (disable and enable nodejs20 v & install)
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: nodejs-setup
+
+- name: app setup (create system user and download and exacts files)
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: app-setup
+
+- name: Install node.js package.
+  community.general.npm:
+    path: /app
+
+- name: systemd setup (configure systemd service file)
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: systemd-setup
+
